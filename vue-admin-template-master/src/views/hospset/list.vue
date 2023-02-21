@@ -11,11 +11,19 @@
       </el-form-item>
       <el-button type="primary" icon="el-icon-search" @click="getList()">查询</el-button>
     </el-form>
+    <!-- 工具条 -->
+    <div>
+      <el-button type="danger" size="mini" @click="removeRows()">批量删除</el-button>
+    </div>
     <el-table
       :data="list"
-      style="width: 100%">
+      style="width: 100%"
+      @selection-change="handleSelectionChange">
       <el-table-column
-        prop="id"
+        type="selection"
+        width="55"/>
+      <el-table-column
+        type="index"
         label="序号"
         width="50"/>
       <el-table-column
@@ -45,14 +53,27 @@
       <!-- 删除列 -->
       <el-table-column
         label="操作"
-        width="100"
+        width="280"
         align="center">
         <template slot-scope="scope">
           <el-button
             type="danger"
             size="mini"
             icon="el-icon-delete"
-            @click="removeDataById(scope.row.id)"/>
+            @click="removeDataById(scope.row.id)">删除
+          </el-button>
+          <el-button
+            v-if="scope.row.status==1"
+            type="primary"
+            size="mini"
+            @click="lockHospitalSet(scope.row.id, 0)">锁定
+          </el-button>
+          <el-button
+            v-if="scope.row.status==0"
+            type="danger"
+            size="mini"
+            @click="lockHospitalSet(scope.row.id, 1)">取消锁定
+          </el-button>
         </template>
       </el-table-column>
       <!-- 删除按钮 -->
@@ -70,7 +91,7 @@
 
 <script>
 // TODO 引入接口定义的文件中导出的方法  使用别名来引入，然后再用.来调用方法居然不行？
-import { getHospSetList, deleteHospSet } from '@/api/hospset'
+import { getHospSetList, deleteHospSet, batchHospSet, lockHospSet } from '@/api/hospset'
 
 export default {
   // 定义变量和初始值
@@ -80,7 +101,8 @@ export default {
       limit: 3, // 每页显示记录数
       searchObj: {}, // 条件对象
       list: [], // 每页数据集合
-      total: 0// 总记录数
+      total: 0, // 总记录数
+      multipleSelection: []
     }
   },
   created() {
@@ -88,6 +110,40 @@ export default {
     this.getList()
   },
   methods: {// 定义方法,请求接口调用
+
+    // 批量删除时 得到复选框中的id列表
+    handleSelectionChange(selection) {
+      this.multipleSelection = selection // 赋值给multipleSElection,但里面包含了很多信息，要从中取出id值
+    },
+    // 批量删除医院信息的方法
+    removeRows() {
+      // 弹出确认框
+      this.$confirm('此操作将永久删除医院设置, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => { // 确定则执行下面逻辑
+        var idList = [] // 存放id值
+        // 遍历数组得到每个id值，设置到idList数组里面
+        for (var i = 0; i < this.multipleSelection.length; i++) {
+          var obj = this.multipleSelection[i]
+          var id = obj.id
+          idList.push(id)
+        }
+        // 接口调用
+        batchHospSet(idList)
+          .then(response => {
+            // 提示
+            this.$message({
+              type: 'success',
+              message: '删除成功！'
+            })
+            // 刷新页面】
+            this.getList()
+          })
+      })
+    },
+
     // 医院设置列表的方法
     getList(page = 1) { // page默认为1
       this.current = page
@@ -119,7 +175,20 @@ export default {
             this.getList()
           })
       })
+    },
+    // 锁定和取消锁定
+    lockHospitalSet(id, status) {
+      console.log('获取到的id:' + id)
+      lockHospSet(id, status)
+        .then(response => {
+          // 刷新页面
+          this.getList()
+        })
+        .catch(error => {
+          console.log(error)
+        })
     }
+    // 添加医院设置信息
 
   }
 }
