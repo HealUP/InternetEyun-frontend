@@ -22,7 +22,7 @@ export function getHospSetList(current, limit, searchObj) {
 export function deleteHospSet(id) {
   return request({
     url: `/admin/hosp/hospitalSet/${id}`,
-    method: `delete`
+    method: 'delete'
   })
 }
 
@@ -30,7 +30,7 @@ export function deleteHospSet(id) {
 export function batchHospSet(idList) {
   return request({
     url: `/admin/hosp/hospitalSet/batchRemove`,
-    method: `delete`,
+    method: 'delete',
     data: idList // Json数据
   })
 }
@@ -39,7 +39,7 @@ export function batchHospSet(idList) {
 export function lockHospSet(id, status) {
   return request({
     url: `/admin/hosp/hospitalSet/lockHsopitalSet/${id}/${status}`,
-    method: `put`
+    method: 'put'
   })
 }
 
@@ -47,7 +47,24 @@ export function lockHospSet(id, status) {
 export function saveHospSet(hospitalSet) {
   return request({
     url: `/admin/hosp/hospitalSet/saveHospitalSet`,
-    method: `post`,
+    method: 'post',
+    data: hospitalSet
+  })
+}
+
+// 根据id查询医院信息
+export function getHospSet(id) {
+  return request({
+    url: `/admin/hosp/hospitalSet/getHospitalSet/${id}`,
+    method: 'get'
+  })
+}
+
+// 修改医院设置信息
+export function updateHospSet(hospitalSet) {
+  return request({
+    url: `/admin/hosp/hospitalSet/updateHospitalSet`,
+    method: 'post',
     data: hospitalSet
   })
 }
