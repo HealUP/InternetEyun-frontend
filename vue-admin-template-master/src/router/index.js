@@ -78,9 +78,9 @@ export const constantRouterMap = [
         component: () => import('@/views/hospset/add'),
         meta: { title: '医院设置添加', icon: 'tree' }
       },
-      {// :id 表示要在该位置传递值
+      {// 设置隐藏路由，跳转到和添加医院设置信息共用的页面:id 表示要在该位置传递值
         path: 'edit/:id',
-        name: 'Edit',
+        name: '编辑医院设置',
         component: () => import('@/views/hospset/add'), // 跳转到该页面
         meta: { title: '编辑', noCache: true },
         hidden: true
@@ -88,14 +88,18 @@ export const constantRouterMap = [
     ]
   },
   {
-    path: '/form',
+    path: '/cmn',
     component: Layout,
+    redirect: '/cmn/list',
+    name: '数据管理',
+    alwaysShow: true,
+    meta: { title: '数据管理', icon: 'table' },
     children: [
       {
-        path: 'index',
-        name: 'Form',
-        component: () => import('@/views/form/index'),
-        meta: { title: 'Form', icon: 'form' }
+        path: 'list',
+        name: '数据字典',
+        component: () => import('@/views/dict/list'),
+        meta: { title: '数据字典', icon: 'table' }
       }
     ]
   },
