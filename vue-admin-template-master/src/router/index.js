@@ -84,6 +84,12 @@ export const constantRouterMap = [
         component: () => import('@/views/hospset/add'), // 跳转到该页面
         meta: { title: '编辑', noCache: true },
         hidden: true
+      },
+      {
+        path: 'hosp/list',
+        name: '医院列表',
+        component: () => import('@/views/hosp/list'), // 跳转到该页面
+        meta: { title: '医院列表', icon: 'table' }
       }
     ]
   },
