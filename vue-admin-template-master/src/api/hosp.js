@@ -26,9 +26,26 @@ export function findChildId(id) {
   })
 }
 
+// 更新医院状态
 export function updateStatus(id, status) {
   return request({
     url: `/admin/hosp/hospital/updateHospStatus/${id}/${status}`,
+    method: 'get'
+  })
+}
+
+// 查看医院详情
+export function showHospDetail(id) {
+  return request({
+    url: `/admin/hosp/hospital/showHospDetail/${id}`,
+    method: 'get'
+  })
+}
+
+// 查看医院科室
+export function getSchedulByHoscode(hoscode) {
+  return request({
+    url: `/admin/hosp/department/getDeptList/${hoscode}`,
     method: 'get'
   })
 }

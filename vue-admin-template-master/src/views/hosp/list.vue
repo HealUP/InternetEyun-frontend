@@ -76,6 +76,12 @@
             size="mini"
             @click="update(scope.row.id, 1)">上线
           </el-button>
+          <router-link :to="'/hospSet/hospital/show/'+scope.row.id">
+            <el-button type="primary" size="mini">详情</el-button>
+          </router-link>
+          <router-link :to="'/hospSet/hospital/schedule/'+scope.row.hoscode">
+            <el-button type="primary" size="mini">排班</el-button>
+          </router-link>
         </template>
       </el-table-column>
     </el-table>
@@ -99,7 +105,7 @@ import { getHospList, findByDictCode, findChildId, updateStatus } from '@/api/ho
 export default {
   data() {
     return {
-      listLoading: true, // 数据是否正在加载
+      listLoading: true, // 数据是否正在加载 显示加载图标
       list: null, // banner列表
       total: 0, // 数据库中的总记录数
       page: 1, // 默认页码
@@ -162,8 +168,11 @@ export default {
       this.fetchData(1)
     },
     cityChanged() {
-      this.$forceUpdate()
+      this.$forceUpdate() // 强制刷新页面
     }
+    // resetData() {
+
+    // }
   }
 }
 </script>

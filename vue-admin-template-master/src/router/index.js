@@ -37,32 +37,10 @@ export const constantRouterMap = [
     }]
   },
 
-  // {
-  //   path: '/example',
-  //   component: Layout,
-  //   redirect: '/example/table',
-  //   name: 'Example',
-  //   meta: { title: 'Example', icon: 'example' },
-  //   children: [
-  //     {
-  //       path: 'table',
-  //       name: 'Table',
-  //       component: () => import('@/views/table/index'),
-  //       meta: { title: 'Table', icon: 'table' }
-  //     },
-  //     {
-  //       path: 'tree',
-  //       name: 'Tree',
-  //       component: () => import('@/views/tree/index'),
-  //       meta: { title: 'Tree', icon: 'tree' }
-  //     }
-  //   ]
-  // },
-
   {
     path: '/hospSet',
     component: Layout,
-    redirect: '/hospSet/table',
+    redirect: '/hospSet/list',
     name: '医院设置管理',
     meta: { title: '医院设置管理', icon: 'example' },
     children: [
@@ -78,7 +56,7 @@ export const constantRouterMap = [
         component: () => import('@/views/hospset/add'),
         meta: { title: '医院设置添加', icon: 'tree' }
       },
-      {// 设置隐藏路由，跳转到和添加医院设置信息共用的页面:id 表示要在该位置传递值
+      {// 设置隐藏路由，跳转到和添加医院设置信息共用的页面 :id 表示要在该位置传递值
         path: 'edit/:id',
         name: '编辑医院设置',
         component: () => import('@/views/hospset/add'), // 跳转到该页面
@@ -90,6 +68,22 @@ export const constantRouterMap = [
         name: '医院列表',
         component: () => import('@/views/hosp/list'), // 跳转到该页面
         meta: { title: '医院列表', icon: 'table' }
+      },
+      {
+        // 设置隐藏路由
+        path: 'hospital/show/:id',
+        name: '查看',
+        component: () => import('@/views/hosp/show'), // 跳转到该页面
+        meta: { title: '详情', noCache: 'true' },
+        hidden: true
+      },
+      {
+        // 设置隐藏路由
+        path: 'hospital/schedule/:hoscode',
+        name: '排班',
+        component: () => import('@/views/hosp/schedule'), // 跳转到该页面
+        meta: { title: '排班', noCache: 'true' },
+        hidden: true
       }
     ]
   },
