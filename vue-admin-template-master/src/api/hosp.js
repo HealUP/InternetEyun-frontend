@@ -50,3 +50,18 @@ export function getSchedulByHoscode(hoscode) {
   })
 }
 
+// 查询预约规则
+export function getScheduleRules(page, limit, hoscode, depcode) {
+  return request({
+    url: `/admin/hosp/schedule/getScheduleRule/${page}/${limit}/${hoscode}/${depcode}`,
+    method: 'get'
+  })
+}
+
+// 查询详细排班信息
+export function getScheduleDetail(hoscode, depcode, workDate) {
+  return request({
+    url: `/admin/hosp/schedule/getScheduleDetail/${hoscode}/${depcode}/${workDate}`,
+    method: 'get'
+  })
+}

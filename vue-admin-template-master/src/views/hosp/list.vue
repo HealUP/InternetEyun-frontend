@@ -140,7 +140,7 @@ export default {
           this.list = response.data.content
           // 总记录数
           this.total = response.data.totalElements
-          // 加载图标不显示
+          // 查询完毕使得加载图标不显示
           this.listLoading = false
         })
     },
