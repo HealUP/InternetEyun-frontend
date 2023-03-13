@@ -65,3 +65,4 @@ export function getScheduleDetail(hoscode, depcode, workDate) {
     method: 'get'
   })
 }
+
